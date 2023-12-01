@@ -1,6 +1,6 @@
 The necessary libraries for this repo are as following
 
-ruff #!pip install ruff
-pytest #!pip install pytest
+ruff #pip install ruff
+pytest #pip install pytest
 
 The given code can be used to download via terminal on windows and mac

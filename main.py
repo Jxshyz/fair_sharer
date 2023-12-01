@@ -1,25 +1,29 @@
+import ruff
+import pytest
+
 def fair_sharer(values, num_iterations, share=0.1):
+    if not isinstance(values, list):
+        raise ValueError(f"{values} muss eine Liste sein")
+    
+    num_iterations = int(num_iterations)
+    new_values = values.copy()
 
-    if type(num_iterations) is int:
-        
-        for i in range(num_iterations):
-            # Kopie der Liste
-            new_values = values
+    for _ in range(num_iterations):
+        idx = new_values.index(max(new_values))
+        highest_value = new_values[idx]
 
-            # Indexierung, höchster Wert
-            idx = new_values.index(max(values))
-            highest_value = new_values[idx]
+        # Berechnung der Indizes für linke und rechte Nachbarn
+        left = (idx - 1) % len(new_values)
+        right = (idx + 1) % len(new_values)
 
-            # Berechnungen
-            new_values[idx - 1] = new_values[idx - 1] + highest_value*share
-            new_values[idx + 1] = new_values[idx + 1] + highest_value*share
-            new_values[idx] = new_values[idx] - highest_value*share*2
-            return new_values
-    else: 
-        print(f" {num_iterations} muss eine Zahl sein!")
+        # Verteilung des Anteils
+        new_values[left] += highest_value * share
+        new_values[right] += highest_value * share
+        new_values[idx] -= highest_value * share * 2
 
-a = [0, 1000, 800, 0]
+    return new_values
 
-print(fair_sharer(a, 1))
-
-
+# Test der Funktion
+if __name__ == "__main__":
+    a = [0, 1000, 800, 0]
+    print(fair_sharer(a, 1))
